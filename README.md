@@ -32,3 +32,19 @@ assert.d.ts(78,47)
 - "typescript": "~3.7.5", from "typescript": "^2.8.1",
 
 
+## Table of Content
+
+====================== Setup: stopping infinite subscribers ======================
+====================== 03-Streams, Observables & Subscriptions ======================
+====================== 04-Hot vs. Cold Observables_ ======================
+====================== 07-Operators ======================
+------ 07-Operators: map ------
+
+------ 07-Operators: pluck ------
+
+------ 07-Operators: skipUntil ------
+====================== 08: How to stop infinite Observable ======================
+====================== 09: How to convert to local time from UTC or standardized ISO 8601-format ======================
+====================== Free Testing ======================
+
+

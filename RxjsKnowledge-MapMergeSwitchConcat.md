@@ -8,6 +8,13 @@
 https://medium.com/@luukgruijs/understanding-rxjs-map-mergemap-switchmap-and-concatmap-833fc1fb09ff
 
 
+- switchMap:
+
+https://www.youtube.com/watch?v=6lKoLwGlglE
+
+file:///home/albert/Documents/sharing/switchMap()-RxJS TUTORIAL.mp4
+
+
 ### map
 
 Mapping data is a common operation while writing your program. When you use RxJS in your code to produce your data streams it’s very likely you eventually need a way to map the data to whatever format you need it to be.

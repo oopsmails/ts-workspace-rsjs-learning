@@ -2,7 +2,8 @@ import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { from } from 'rxjs/observable/from';
 import { fromEvent } from 'rxjs/observable/fromEvent';
-import { takeUntil } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
+import { map, takeUntil } from 'rxjs/operators';
 
 
 addItem('====================== Setup: stopping infinite subscribers ======================');
@@ -56,10 +57,10 @@ var observable_04_02 = Observable.create((observer: any) => {
         observer.console.error(err);
     }
 })
-.pipe(
-    takeUntil(stopSignalObservable$)
-)
-.share(); // This is hot observable, observers subscribe with this can only get values after subscribing.
+    .pipe(
+        takeUntil(stopSignalObservable$)
+    )
+    .share(); // This is hot observable, observers subscribe with this can only get values after subscribing.
 
 var observable_04_03 = fromEvent(document, 'mouseup'); // real hot from event, e.g, mouse
 
@@ -95,6 +96,53 @@ Observable.create((observer: any) => {
 })
     .map((val: any) => val.toUpperCase())
     .subscribe((x: any) => addItem(x))
+
+addItem('------ 07-Operators: map, mergeMap, switchMap and concatMap ------');
+
+// lets create our data first
+const data = of([
+    {
+        brand: 'porsche',
+        model: '911'
+    },
+    {
+        brand: 'porsche',
+        model: 'macan'
+    },
+    {
+        brand: 'ferarri',
+        model: '458'
+    },
+    {
+        brand: 'lamborghini',
+        model: 'urus'
+    }
+]);
+
+// get data as brand+model string. Result: 
+// ["porsche 911", "porsche macan", "ferarri 458", "lamborghini urus"]
+data
+    .pipe(
+        map(cars => cars.map(car => `${car.brand} ${car.model}`))
+    ).subscribe(cars => addItem('07-Operators, map: ' + cars))
+
+// filter data so that we only have porsches. Result:
+// [
+//   {
+//     brand: 'porsche',
+//     model: '911'
+//   },
+//   {
+//     brand: 'porsche',
+//     model: 'macan'
+//   }
+// ]
+data
+    .pipe(
+        map(cars => cars.filter(car => car.brand === 'porsche'))
+    ).subscribe(cars => addItem('07-Operators, map filter: ' + cars))
+
+
 
 addItem('------ 07-Operators: pluck ------');
 
@@ -166,18 +214,18 @@ var divLocal = <HTMLDivElement>document.getElementById('divLocal');
 // var divLocal = <HTMLDivElement>document.createElement('div');
 // divUtc.innerHTML = 'local';
 
-setInterval(function(){
+setInterval(function () {
     // UTC time
     var utcTime = moment.utc().format('YYYY-MM-DD HH:mm:ss');
     // createAndSetDiv('divUTC', 'moment.js utc local timezone UTC' + utcTime);
-    divUtc.innerText = '' + moment.utc().format('YYYY-MM-DD HH:mm:ss'); 
-    
+    divUtc.innerText = '' + moment.utc().format('YYYY-MM-DD HH:mm:ss');
+
     //get text from divUTC and conver to local timezone  
-    var localTime  = moment.utc(utcTime).toDate();
+    var localTime = moment.utc(utcTime).toDate();
     var localTimeFormattedStr = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
     // createAndSetDiv('divLocal', 'Your Local Time with respect to above UTC time' + localTimeFormattedStr);
-    divLocal.innerText = localTimeFormattedStr;      
-  },1000);
+    divLocal.innerText = localTimeFormattedStr;
+}, 1000);
 
 
 

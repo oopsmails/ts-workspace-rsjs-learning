@@ -22,5 +22,34 @@ There is no similar behaviour for Observable.of - which always accepts only valu
 https://medium.com/@luukgruijs/understanding-rxjs-map-mergemap-switchmap-and-concatmap-833fc1fb09ff
 
 
+### setinterval vs settimeout
+
+#### setTimeout():
+
+It is a function that execute a JavaScript statement AFTER x interval.
+
+```
+var timer = setTimeout(function () {
+    something();
+}, 1000); // Execute something() 1 second later.
+clearTimeout(timer);
+```
+
+
+
+#### setInterval():
+
+It is a function that execute a JavaScript statement EVERY x interval.
+
+```
+var intervalID = setInterval(function () {
+    somethingElse();
+}, 2000); // Execute somethingElse() every 2 seconds.
+The interval unit is in millisecond for both functions.
+
+
+// clearInterval(intervalID); // Will clear the timer.
+```
+
 
 

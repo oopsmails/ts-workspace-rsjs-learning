@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { AsyncSubject, BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import { from } from 'rxjs/observable/from';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { of } from 'rxjs/observable/of';
@@ -86,6 +86,141 @@ setTimeout(
         );
     }, 1000
 )
+
+addItem('====================== 05-Subjects_ ======================');
+
+// Subject: an Observer also be able to emit values, it is an Observer and an Observable simultaneously 
+
+var subject_05_01 = new Subject();
+subject_05_01.subscribe(
+    data => addItem('subject_05_01: ' + data),
+    err => addItem(err),
+    () => addItem('subject_05_01 completed')
+)
+
+subject_05_01.next('The first thing has been sent')
+
+var observer_05_01 = subject_05_01.subscribe(
+    (data: any) => addItem('observer_05_01: ' + data),
+    (error: any) => addItem(error),
+    () => addItem('observer_05_01 completed')
+);
+
+subject_05_01.next('The second thing has been sent')
+subject_05_01.next('A third thing has been sent')
+
+observer_05_01.unsubscribe();
+
+subject_05_01.next('A final thing has been sent')
+
+
+addItem('====================== 06-Other Subjects (Behavior, Replay&Async)_ ======================');
+
+
+addItem('------ 06-BehaviorSubject ------');
+// BehaviorSubject, a newly subscribed observer's will get the last value right before the subscription.
+
+var subject_06_01 = new BehaviorSubject('First');
+subject_06_01.subscribe(
+    data => addItem('subject_06_01: ' + data),
+    err => addItem(err),
+    () => addItem('subject_06_01 completed')
+)
+
+subject_06_01.next('The first thing has been sent')
+
+subject_06_01.next('... Observer observer_06_01 is about to subscrbe ...') // observer_06_01 will get this!!!!
+
+var observer_06_01 = subject_06_01.subscribe(
+    (data: any) => addItem('observer_06_01: ' + data),
+    (error: any) => addItem(error),
+    () => addItem('observer_06_01 completed')
+);
+
+subject_06_01.next('The second thing has been sent')
+subject_06_01.next('A third thing has been sent')
+
+addItem('------ 06-ReplaySubject, replay back by number ------');
+// ReplaySubject, allows a number of value to be replayed back, vs BehaviorSubject only get the very last value
+// also can specify a time window ...
+
+var subject_06_02 = new ReplaySubject(2); // get last 2 values
+subject_06_02.subscribe(
+    data => addItem('subject_06_02: ' + data),
+    err => addItem(err),
+    () => addItem('subject_06_02 completed')
+)
+
+subject_06_02.next('The first thing has been sent')
+subject_06_02.next('Another thing has been sent') // observer_06_02 will get this!!!
+subject_06_02.next('... Observer observer_06_02 is about to subscrbe ...') // observer_06_02 will get this!!!!
+
+var observer_06_02 = subject_06_02.subscribe(
+    (data: any) => addItem('observer_06_02: ' + data),
+    (error: any) => addItem(error),
+    () => addItem('observer_06_02 completed')
+);
+
+subject_06_02.next('The second thing has been sent')
+subject_06_02.next('A third thing has been sent')
+
+addItem('------ 06-ReplaySubject, replay back by number and time period ------');
+
+var subject_06_03 = new ReplaySubject(30, 200); // get 30 values within last 200 ms, if change to 500ms, then can get all
+subject_06_03.subscribe(
+    data => addItem('subject_06_03: ' + data),
+    err => addItem(err),
+    () => addItem('subject_06_03 completed')
+)
+
+var i = 1;
+var interval_06_03 = setInterval(() => subject_06_03.next(i++), 100)
+
+setTimeout(
+    () => {
+        var observer_06_03 = subject_06_03.subscribe(
+            (data: any) => addItem('observer_06_03: ' + data),
+            (error: any) => addItem(error),
+            () => addItem('observer_06_03  completed')
+        );
+    }, 500
+)
+
+setTimeout(
+    () => {
+        clearInterval(interval_06_03)
+    }, 1000
+)
+
+addItem('------ 06-AsyncSubject ------');
+
+// AsyncSubject: Only the very LAST value will be sent to all Observers and ONLY sending with complete(), i.e, no complete(), no sending!
+// search "_06_04", only two, i.e, subject_06_04 and observer_06_04
+
+var subject_06_04 = new AsyncSubject(); // get 30 values within last 200 ms, if change to 500ms, then can get all
+subject_06_04.subscribe(
+    data => addItem('subject_06_04: ' + data),
+    () => addItem('subject_06_03 completed')
+)
+
+var i = 1;
+var interval_06_04 = setInterval(() => subject_06_04.next(i++), 100)
+
+setTimeout(
+    () => {
+        var observer_06_04 = subject_06_04.subscribe(
+            (data: any) => addItem('observer_06_04: ' + data)
+        );
+        subject_06_04.complete();
+    }, 500
+)
+
+setTimeout(
+    () => {
+        clearInterval(interval_06_04)
+    }, 1000
+)
+
 
 addItem('====================== 07-Operators ======================');
 

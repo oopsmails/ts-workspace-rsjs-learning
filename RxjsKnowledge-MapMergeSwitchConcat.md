@@ -15,6 +15,32 @@ https://www.youtube.com/watch?v=6lKoLwGlglE
 file:///home/albert/Documents/sharing/switchMap()-RxJS TUTORIAL.mp4
 
 
+- As with the RemoveFromCart action, using mergeMap would fix the bug, because switchMap will introduce race condition.
+(https://ncjamieson.com/avoiding-switchmap-related-bugs/)
+
+- If our application’s cart shows the total cost of the items plus the shipping, each change to the cart’s content would see a GetCartTotal action dispatched. Using switchMap for the effect/epic that handles the GetCartTotal action would be entirely appropriate.
+
+- exhaustMap
+exhaustMap is perhaps the least-well-known of the flattening operators, but it’s easily explained: it can be thought of as the opposite of switchMap.
+
+If switchMap is used, pending backend requests are aborted in favour of more recently dispatched actions. However, if exhaustMap is used, dispatched actions are ignored whilst there is a pending backend request.
+
+Let’s look at a scenario in which exhaustMap could be used.
+
+There’s a particular type of user with whom developers should be familiar: the incessant button clicker. When the incessant button clicker clicks a button and nothing happens, they click it again. And again. And again.
+
+If our shopping cart has a refresh button and the effect/epic that handles the refresh uses switchMap, each incessant button click will abort the pending refresh. That doesn’t make a whole lot of sense and the incessant button clicker could be clicking for a long, long time before a refresh occurs.
+
+If the effect/epic that handles the refreshing of the cart instead used exhaustMap, a pending refresh request would see the incessant clicks ignored.
+
+### Summary
+
+- use concatMap with actions that should be neither aborted nor ignored and for which the ordering must be preserved — it’s also a conservative choice that will always behave in a predictable manner;
+- use mergeMap with actions that should be neither aborted nor ignored and for which the ordering is unimportant;
+- use switchMap with read actions that should be aborted when another action of the same type is dispatched; and
+- use exhaustMap with actions that should be ignored whilst an action of the same type is pending.
+
+
 ### map
 
 Mapping data is a common operation while writing your program. When you use RxJS in your code to produce your data streams it’s very likely you eventually need a way to map the data to whatever format you need it to be.

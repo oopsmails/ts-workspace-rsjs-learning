@@ -458,8 +458,30 @@ setInterval(function () {
 }, 1000);
 
 
+addItem('====================== 10: setInterval vs setTimeout ======================');
+
+function doStuffSetInterval() {
+    addItem("doStuffSetInterval_10_01: run your code here when time interval is reached");
+}
+var interval_10_01 = setInterval(doStuffSetInterval, 2000);
+
+setTimeout(
+    () => {
+        clearInterval(interval_10_01)
+    }, 20000
+)
+
+function doStuffSetTimeout() {
+    addItem("doStuffSetTimeout_10_01: run your code here when time interval is reached");
+}
+var timeout_10_01 = setTimeout(doStuffSetTimeout, 2000);
+clearTimeout(timeout_10_01); // cleared!!!
+
+
 
 addItem('====================== Free Testing ======================');
+
+
 
 function createAndSetDiv(divEle: any, val: any) {
     var node = document.createElement('div');

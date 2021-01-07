@@ -32,7 +32,7 @@ const user = {
 
 addItem((user && user.address && user.address.street) ?? ''); 
 
-addItem((user?.address?.street ?? ''); 
+addItem(user?.address?.street ?? ''); 
 
 addItem('====================== Free Testing ======================');
 

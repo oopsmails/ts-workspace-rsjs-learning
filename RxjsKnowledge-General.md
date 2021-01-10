@@ -102,6 +102,12 @@ let x = (foo !== null && foo !== undefined) ?
 foo :
 bar();
 
+### Typescript, Map vs Record
+
+https://www.typescriptlang.org/docs/handbook/utility-types.html
+
+https://levelup.gitconnected.com/advanced-typescript-types-with-examples-1d144e4eda9e
+
 
 
 

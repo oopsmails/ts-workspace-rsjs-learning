@@ -4,6 +4,7 @@ import { from } from 'rxjs/observable/from';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { of } from 'rxjs/observable/of';
 import { concatMap, delay, map, mergeAll, mergeMap, switchAll, switchMap, takeUntil } from 'rxjs/operators';
+import { Customer, Permission, PrintMedia, User } from './customer.model';
 
 
 addItem('====================== Setup: stopping infinite subscribers ======================');
@@ -35,6 +36,23 @@ addItem((user && user.address && user.address.street) ?? '');
 addItem(user?.address?.street ?? ''); 
 
 addItem('====================== Free Testing ======================');
+
+
+type RecordType_12_01 = Record<PrintMedia, Customer>;
+const record01: RecordType_12_01 = {
+    1: {name: 'joe1'},
+    // 3: {name: 'joe'}, // error
+    5: {name: 'joe5'},
+    6: {name: 'joe6'},
+    10: {name: 'joe10'}
+};
+
+// type RecordType_12_02 = Record<Permission.AllRead, User>;
+// const record02: RecordType_12_02 = {
+//     Permission.AllRead: {name: 'joe'}
+// };
+
+addItem(record01); 
 
 
 

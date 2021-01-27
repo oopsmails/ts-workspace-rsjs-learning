@@ -165,3 +165,61 @@ console.log(result3)
 // man is dumb and plants
 
 ```
+
+## Using "regex back reference"
+
+- \w vs \1
+
+https://docs.microsoft.com/en-us/dotnet/standard/base-types/backreference-constructs-in-regular-expressions
+
+(\w)	Match a word character and assign it to the first capturing group.
+\1	Match the next character that is the same as the value of the first capturing group.
+
+```
+C# example
+
+using System;
+using System.Text.RegularExpressions;
+
+public class Example
+{
+   public static void Main()
+   {
+      string pattern = @"(\w)\1";
+      string input = "trellis llama webbing dresser swagger";
+      foreach (Match match in Regex.Matches(input, pattern))
+         Console.WriteLine("Found '{0}' at position {1}.",
+                           match.Value, match.Index);
+   }
+}
+// The example displays the following output:
+//       Found 'll' at position 3.
+//       Found 'll' at position 8.
+//       Found 'bb' at position 16.
+//       Found 'ss' at position 25.
+//       Found 'gg' at position 33.
+
+```
+
+- A good example
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#switching_words_in_a_string
+
+```
+const out = document.getElementById('output');
+
+const re = /(\w+)\s(\w+)/;
+const str = 'Jane Smith';
+const newstr = str.replace(re, '$2, $1');
+console.log(newstr);
+
+const someday = moment('2011-01-01 09:30');
+//let output = someday.format('h:mm a.').replace(/(\w+)\s(\w+)m./, '$1 $2.m.');
+let output = someday.format('h:mm a.').replace(/\s(\w+)m./, ' $1.m.');
+
+out.innerText = output;
+```
+
+
+
+

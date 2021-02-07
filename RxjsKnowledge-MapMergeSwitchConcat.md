@@ -2,11 +2,19 @@
 
 ## Knowledge: Understanding RxJS map, mergeMap, switchMap and concatMap
 
+### https://duncanhunter.gitbook.io/angular-and-ngrx/20.-create-effect
+
+| Operator | Behavior  | When to use  |
+| :---:   | :-: | :-: |
+| switchMap | Cancels the current subscription/request and can cause race condition | Use for get requests or cancelable requests like searches
+| concatMap | Runs subscriptions/requests in order and is less performant | Use for get, post and put requests when order is important
+| mergeMap | Runs subscriptions/requests in parallel | Use for put, post and delete methods when order is not important
+| exhaustMap | Ignores all subsequent subscriptions/requests until it completes | Use for login when you do not want more requests until the initial one is complete
+
+
+### https://medium.com/@luukgruijs/understanding-rxjs-map-mergemap-switchmap-and-concatmap-833fc1fb
+
 **Solving multiple observables ...**
-
-- from
-https://medium.com/@luukgruijs/understanding-rxjs-map-mergemap-switchmap-and-concatmap-833fc1fb09ff
-
 
 - switchMap:
 
